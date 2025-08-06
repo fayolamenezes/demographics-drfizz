@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Perfect For — pinned progress reveal (title on top)</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0d0d;
+    --muted:#ffffff;
+    --accent:#f59e0b;
+    --accent-2:#ffb86b;
+    --text:#ffffff;
+  }
+  html,body{height:100%;margin:0;background:var(--bg);font-family:Montserrat,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;color:var(--text);-webkit-font-smoothing:antialiased}
+  body::before{
+    content:"";
+    position:fixed; inset:0; z-index:0;
+    background-image:radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size:26px 26px;
+    pointer-events:none;
+  }
+
+  /* pinned section */
+  section#pin {
+    position:relative;
+    z-index:1;
+    height:100vh;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    overflow:visible;
+  }
+
+  /* main container: title on top, then content row */
+  .container {
+    width:100%;
+    max-width:1200px;
+    margin:0 auto;
+    padding:48px 36px;
+    display:grid;
+    grid-template-rows: auto 1fr; /* row1 = title, row2 = content */
+    gap:18px;
+  }
+
+  /* title row */
+  .title-row {
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+  }
+  .title {
+    font-size:56px;
+    font-weight:800;
+    margin:0;
+    letter-spacing:1px;
+    padding-left: 50px;
+  }
+  .title .accent { color:var(--accent); margin-left:12px; font-weight:800; }
+
+  /* content row: three columns visually, but right column hidden on small screens */
+  .content-row {
+    display:grid;
+    grid-template-columns:92px 1fr 420px;
+    align-items:start;
+  }
+
+  /* LEFT: vertical progress column */
+  .left {
+    position:relative;
+    height:calc(100vh - 180px);
+    padding-top:20px;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding-left: 20px;
+  }
+  
+  .track {
+    width:8px;
+    height:86%;
+    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border-radius:8px;
+    position:relative;
+    overflow:visible;
+  }
+  .fill {
+    position:absolute;
+    left:0; top:0;
+    width:100%;
+    height:0%;
+    background:linear-gradient(180deg,var(--accent),var(--accent-2));
+    border-radius:8px;
+    box-shadow:0 4px 14px rgba(245,158,11,0.12);
+    transform-origin:top center;
+  }
+
+  .list {
+    margin-top:25px;
+    display:flex;
+    flex-direction:column;
+    gap:50px;
+  }
+  .item {
+    padding-left:6px;
+  }
+  .heading {
+    margin:0;
+    font-size:22px;
+    font-weight:700;
+    opacity:0.5;
+    transform:translateY(6px);
+    will-change:opacity,transform;
+  }
+  .sub {
+    margin:6px 0 0 0;
+    font-size:15px;
+    color:var(--muted);
+    opacity:1;
+    transform:translateY(6px);
+    will-change:opacity,transform;
+  }
+
+  /* RIGHT placeholder area (kept for layout) */
+  .right {
+    min-height:420px;
+    border-radius:12px;
+    background:rgba(255,255,255,0.02);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--muted);
+    font-weight:700;
+    padding:16px;
+  }
+
+  @media (max-width:1000px){
+    .content-row{ grid-template-columns:64px 1fr; }
+    .right{ display:none; }
+    .title{ font-size:40px; }
+  }
+</style>
+</head>
+<body>
+
+<section id="pin">
+  <div class="container">
+    <!-- TOP: title -->
+    <div class="title-row">
+      <h1 class="title">PERFECT <span class="accent">FOR</span></h1>
+    </div>
+
+    <!-- BOTTOM: content row -->
+    <div class="content-row">
+      <!-- LEFT column: progress -->
+      <div class="left">
+        <div class="track" id="track">
+          <div class="fill" id="fill"></div>
+        </div>
+      </div>
+
+      <!-- CENTER: list -->
+      <div class="center">
+        <div class="list" id="list">
+          <div class="item" id="item-1">
+            <h3 class="heading">Founders &amp; D2C Brands</h3>
+            <p class="sub">Grow Inbound Leads On A Budget</p>
+          </div>
+
+          <div class="item" id="item-2">
+            <h3 class="heading">Digital Agencies</h3>
+            <p class="sub">Replace 3–4 Expensive Tools With One Platform</p>
+          </div>
+
+          <div class="item" id="item-3">
+            <h3 class="heading">Freelancers &amp; Consultants</h3>
+            <p class="sub">Deliver Faster, Data-Driven Results</p>
+          </div>
+
+          <div class="item" id="item-4">
+            <h3 class="heading">In-House Marketers</h3>
+            <p class="sub">Streamline Content, Backlinks &amp; Reporting</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT placeholder (optional animation area) -->
+      <div class="right">Animation area</div>
+    </div>
+  </div>
+</section>
+
+<!-- GSAP / ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  const fill = document.getElementById('fill');
+  const items = Array.from(document.querySelectorAll('.item'));
+
+  // Pin the section and scrub the fill across the pinned scroll distance
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#pin",
+      start: "top top",
+      end: "+=700",   // controls how long the pinned area lasts; adjust if you want slower/faster reveal
+      scrub: true,
+      pin: true
+    }
+  });
+
+  // Fill animation
+  tl.to(fill, { height: "100%", ease: "none" }, 0);
+
+  // Per-item reveal: fade heading/sub as the progress reaches their position
+  items.forEach((it) => {
+    const heading = it.querySelector('.heading');
+    const sub = it.querySelector('.sub');
+
+    gsap.fromTo(heading,
+      { opacity: 0.5, y: 6 },
+      {
+        opacity: 1, y: 0, ease: "power1.out",
+        scrollTrigger: {
+          trigger: it,
+          start: `top center+=-60`,
+          end: `top center+=20`,
+          scrub: true,
+          containerAnimation: tl
+        }
+      });
+
+    gsap.fromTo(sub,
+      { opacity: 0.35, y: 6 },
+      {
+        opacity: 0.85, y: 0, ease: "power1.out",
+        scrollTrigger: {
+          trigger: it,
+          start: `top center+=-20`,
+          end: `top center+=60`,
+          scrub: true,
+          containerAnimation: tl
+        }
+      });
+  });
+
+  // Keep triggers accurate on resize
+  window.addEventListener('resize', () => ScrollTrigger.refresh());
+</script>
+</body>
+</html>
