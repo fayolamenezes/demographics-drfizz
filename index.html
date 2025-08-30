@@ -222,6 +222,77 @@
       .right { display:none; }
       .title { font-size:40px; }
     }
+
+/* Stage 3 Falling Icon + Glow */
+.falling-icon-wrapper {
+  position: absolute;
+  top: 10px;        /* starting position */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 82px;      /* icon size */
+  height: 83px;
+  z-index: 100;
+}
+
+.falling-icon {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.falling-icon svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.icon-glow-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.outer-glow,
+.inner-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  box-sizing: border-box;
+  opacity: 0;
+}
+
+.outer-glow {
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle, rgba(77,147,234,0.85) 0%, rgba(0,114,255,0.1) 80%);
+  z-index: 0;
+}
+
+.inner-glow {
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle, rgba(0,198,255,0.5) 0%, rgba(0,198,255,0.1) 80%);
+  z-index: 1;
+}
+
+
+    .box-left,
+    .box-center,
+    .box-right {
+      fill: transparent;
+      stroke: #aaa;
+      stroke-width: 1.5;
+    }
+
+    .highlight {
+      opacity: 0;
+      fill: url(#gradient);
+      fill-opacity: 0.25;
+      stroke: url(#gradient);
+      stroke-width: 1;
+    }
   </style>
 </head>
 <body>
@@ -288,6 +359,51 @@
             <div class="falling-ellipse" id="fallingEllipse"></div>
           </div>
         </div>
+
+        <!-- Stage 3 Falling Icon + Glow animation -->
+        <div class="stage3" style="display:none;">
+          <div class="falling-icon-wrapper">
+          <div class="falling-icon">
+            <div class="icon-glow-container">
+              <div class="outer-glow"></div>
+              <div class="inner-glow"></div>
+              <svg width="82" height="83" viewBox="0 0 82 83" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M41 0C44.1046 0 45.7952 7.28276 47.6569 8.29289C49.5186 9.30301 54.0902 4.72718 56.2635 6.90049C58.4368 9.07381 53.861 13.6454 54.8711 15.5071C55.8813 17.3688 63.164 19.0594 63.164 22.164C63.164 25.2686 55.8813 26.9592 54.8711 28.8209C53.861 30.6826 58.4368 35.2542 56.2635 37.4275C54.0902 39.6008 49.5186 35.025 47.6569 36.0351C45.7952 37.0453 44.1046 44.328 41 44.328C37.8954 44.328 36.2048 37.0453 34.3431 36.0351C32.4814 35.025 27.9098 39.6008 25.7365 37.4275C23.5632 35.2542 28.139 30.6826 27.1289 28.8209C26.1187 26.9592 18.836 25.2686 18.836 22.164C18.836 19.0594 26.1187 17.3688 27.1289 15.5071C28.139 13.6454 23.5632 9.07381 25.7365 6.90049C27.9098 4.72718 32.4814 9.30301 34.3431 8.29289C36.2048 7.28276 37.8954 0 41 0Z" fill="url(#paint0_linear_1_2)"/>
+                <defs>
+                  <linearGradient id="paint0_linear_1_2" x1="41" y1="0" x2="41" y2="83" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#00C6FF"/>
+                    <stop offset="1" stop-color="#0072FF"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            </div>
+          </div>
+
+          <div class="step-illo">
+            <svg class="main-graphic" viewBox="0 0 1207 1060" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="gradient" x1="601.397" y1="0" x2="601.397" y2="1058.96" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#00C6FF"/>
+                  <stop offset="1" stop-color="#0072FF"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Left Box -->
+              <path class="box-left" d="M0.7 818.6H275V1058.8H0.7V818.6ZM276.5 1058.1V818.3L497.1 690V903.9L276.5 1058.1ZM2.8 817.1L228.8 689.4H495.1L275.6 817.1H2.8Z"/>
+              <path class="highlight box-left-highlight" d="M0.7 818.6H275V1058.8H0.7V818.6ZM276.5 1058.1V818.3L497.1 690V903.9L276.5 1058.1ZM2.8 817.1L228.8 689.4H495.1L275.6 817.1H2.8Z"/>
+
+              <!-- Center Box -->
+              <path class="box-center" d="M353.3 130.6H627.5V1058.2H353.3V130.6ZM629 1057.6V130.3L849.5 2V903.3L629 1057.6ZM355.3 129.1L581.3 1.5H847.6L628 129.1H355.3Z"/>
+              <path class="highlight box-center-highlight" d="M353.3 130.6H627.5V1058.2H353.3V130.6ZM629 1057.6V130.3L849.5 2V903.3L629 1057.6ZM355.3 129.1L581.3 1.5H847.6L628 129.1H355.3Z"/>
+
+              <!-- Right Box -->
+              <path class="box-right" d="M709 571.1H983.3V1058.8H709V571.1ZM984.8 1058.1V570.8L1205.4 442.5V903.9L984.8 1058.1ZM711 569.7L937.1 442H1203.4L983.8 569.7H711Z"/>
+              <path class="highlight box-right-highlight" d="M709 571.1H983.3V1058.8H709V571.1ZM984.8 1058.1V570.8L1205.4 442.5V903.9L984.8 1058.1ZM711 569.7L937.1 442H1203.4L983.8 569.7H711Z"/>
+            </svg>
+          </div>
+        </div>
+
 
       </div>
     </div>
@@ -367,7 +483,7 @@ function ellipseTimeline() {
     },
     onReverseComplete: () => {
       document.querySelector(".stage2").style.display = "none";
-      document.querySelector(".stage1").style.display = "block";
+      document.querySelector(".stage1").style.display = "flex"; // keep stage1 visible
     }
   });
 
@@ -390,6 +506,37 @@ function ellipseTimeline() {
 
   return t;
 }
+
+function stage3Timeline() {
+  let t = gsap.timeline({
+    onStart: () => {
+      document.querySelector(".stage1").style.display = "none";
+      document.querySelector(".stage2").style.display = "none";
+      document.querySelector(".stage3").style.display = "flex";
+    },
+    onReverseComplete: () => {
+      document.querySelector(".stage3").style.display = "none";
+      document.querySelector(".stage2").style.display = "flex"; // show Stage 2 when reversing
+    }
+  });
+
+  gsap.set(".highlight", { opacity: 0 });
+
+  // Icon falling (pixels instead of vh)
+  t.to(".falling-icon-wrapper", { y: 300, ease: "power2.out", duration: 1 }, 0);
+
+  // Glow rings
+  t.to(".inner-glow", { scale: 1.5, opacity: 1, duration: 0.5, ease: "power2.out" }, 0.1);
+  t.to(".outer-glow", { scale: 2.5, opacity: 1, duration: 0.5, ease: "power2.out" }, 0.1);
+
+  // Box highlights
+  t.to(".box-center-highlight", { opacity: 1 }, 0.005);
+  t.to(".box-right-highlight", { opacity: 1 }, 0.12);
+  t.to(".box-left-highlight", { opacity: 1 }, 0.2);
+
+  return t;
+}
+
 
 
   // Main ScrollTrigger timeline
@@ -421,7 +568,7 @@ function ellipseTimeline() {
       tl.add(ellipseTimeline(), stage);
     }
     if (i === 2) {
-      tl.to(right, { backgroundColor: "#dc2626", x: 80, scale: 0.9, duration: 1 }, stage);
+      tl.add(stage3Timeline(), stage);
     }
     if (i === 3) {
       tl.to(right, { backgroundColor: "#9333ea", y: -60, rotation: -15, duration: 1 }, stage);
