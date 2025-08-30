@@ -211,7 +211,7 @@
       background: #00ff66;
       border-radius: 50%;
       position: absolute;
-      top: -150px;
+      top: -100px;
       left: 0;            /* JS will position it */
       transform: none;    /* remove translateX */
       z-index: 2;
@@ -371,15 +371,18 @@ line { stroke-linecap:round; stroke-width:2 }
 
 /* falling icon — start directly above diamond, aligned */
 #fall-icon {
-  position:absolute;
-  left:50%;
-  top:0;
-  transform:translate(-50%,0);
-  width:82px; height:82px;
-  pointer-events:none;
-  z-index:500;
-  will-change:transform,opacity;
+  position: absolute;
+  left: 50%;
+  top: 50%;                 /* 👈 align with diamond center */
+  transform: translate(-50%, -50%); /* 👈 proper centering */
+  width: 82px; 
+  height: 82px;
+  pointer-events: none;
+  z-index: 500;
+  will-change: transform, opacity;
 }
+
+
 #fall-icon svg { width:100%; height:100%; display:block; }
 
 /* small extra diamonds */
@@ -818,25 +821,17 @@ function stage4Timeline() {
     ease:"power1.out"
   },0);
 
-  /* fall icon */
+  /* fall icon (force slide down from above) */
   const fallIcon=document.getElementById("fall-icon");
-  function computeDeltas(){
-    gsap.set(fallIcon, {x:0,y:0});
-    const iR = fallIcon.getBoundingClientRect(),
-          dR = centerDiamond.getBoundingClientRect();
-    const iconCX = iR.left + iR.width/2,
-          iconCY = iR.top + iR.height/2,
-          diamondCX = dR.left + dR.width/2,
-          diamondCY = dR.top + dR.height/2;
-    return {deltaX: diamondCX - iconCX, deltaY: diamondCY - iconCY};
-  }
 
-  t.to(fallIcon,{
-    x:()=>computeDeltas().deltaX,
-    y:()=>computeDeltas().deltaY,
-    ease:"power2.out",
-    immediateRender:false
-  },0);
+/* fall icon */
+t.fromTo("#fall-icon",
+  { y: "-300" },   // start 300px above center
+  { y: "-42", ease: "power2.out", duration: 1 },
+  0
+);
+
+
 
   /* glow toggle */
   ScrollTrigger.create({
@@ -849,7 +844,7 @@ function stage4Timeline() {
   });
 
   ScrollTrigger.addEventListener("refreshInit", () => {
-    gsap.set([sTL, sTR, sBL, fallIcon], { x:0, y:0 });
+    gsap.set([sTL, sTR, sBL, fallIcon], { clearProps: "x,y" });
   });
 
   return t;
