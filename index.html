@@ -310,6 +310,96 @@
       stroke: url(#gradient);
       stroke-width: 1;
     }
+:root {
+  --bg:#0d0d0d;
+  --line:#292929;      /* color for radial + axis lines */
+  --pink:#ff6fb5;      /* color for small diamonds + borders */
+}
+
+/* --- Stage 4 --- */
+.stage4 .wrap {
+  position:relative;
+  width:100%;
+  height:100%;
+  display:grid;
+  place-items:center;
+  overflow:visible;
+}
+.stage4 svg {
+  width:min(80vmin,800px);
+  height:min(80vmin,800px);
+}
+line { stroke-linecap:round; stroke-width:2 }
+.axis { stroke-width:2.4 }
+
+/* inner filled diamond */
+#diamond {
+  position:absolute;
+  left:50%; top:50%;
+  width:120px; height:120px;
+  transform:translate(-50%,-50%) rotate(45deg) scale(0.6);
+  transform-origin:center center;
+  border-radius:8px;
+  pointer-events:none;
+  border:1px solid rgba(255,111,181,1);
+  background: linear-gradient(135deg,
+    rgba(255,111,181,0.30) 0%,
+    rgba(255,111,181,0.18) 50%,
+    rgba(255,111,181,0.16) 100%);
+  box-shadow: 0 6px 20px rgba(255,111,181,0.08);
+  z-index:100;
+}
+#diamond.glow {
+  box-shadow:0 20px 80px rgba(255,111,181,0.25),
+             0 6px 20px rgba(255,111,181,0.12);
+}
+
+/* outer border diamonds */
+#diamond-outer1, #diamond-outer2 {
+  position:absolute;
+  left:50%; top:50%;
+  width:120px; height:120px;
+  transform-origin:center center;
+  border-radius:8px;
+  pointer-events:none;
+  background:transparent;
+  border:1px solid rgba(255,111,181,0.9);
+  will-change:transform,opacity;
+}
+#diamond-outer1{ transform:translate(-50%,-50%) rotate(45deg) scale(0.9); z-index:9; }
+#diamond-outer2{ transform:translate(-50%,-50%) rotate(45deg) scale(1.2); z-index:8; }
+
+/* falling icon — start directly above diamond, aligned */
+#fall-icon {
+  position:absolute;
+  left:50%;
+  top:0;
+  transform:translate(-50%,0);
+  width:82px; height:82px;
+  pointer-events:none;
+  z-index:500;
+  will-change:transform,opacity;
+}
+#fall-icon svg { width:100%; height:100%; display:block; }
+
+/* small extra diamonds */
+.small-diamond {
+  position:absolute;
+  width:18px; height:18px;
+  transform:rotate(45deg) translateZ(0);
+  transform-origin:center center;
+  border-radius:4px;
+  border:1px solid var(--pink);
+  background:transparent;
+  pointer-events:none;
+  will-change:transform,opacity;
+  opacity:0.95;
+  z-index:7;
+}
+.small-diamond.top-left  { left:35%;  top:38%;  transform:translate(-50%,-50%) rotate(45deg) scale(0.72); }
+.small-diamond.top-right { left:63%;  top:42%;  transform:translate(-50%,-50%) rotate(45deg) scale(0.72); }
+.small-diamond.bottom-left{ left:41%; top:68%;  transform:translate(-50%,-50%) rotate(45deg) scale(0.72); }
+
   </style>
 </head>
 <body>
@@ -418,6 +508,43 @@
               <path class="box-right" d="M709 571.1H983.3V1058.8H709V571.1ZM984.8 1058.1V570.8L1205.4 442.5V903.9L984.8 1058.1ZM711 569.7L937.1 442H1203.4L983.8 569.7H711Z"/>
               <path class="highlight box-right-highlight" d="M709 571.1H983.3V1058.8H709V571.1ZM984.8 1058.1V570.8L1205.4 442.5V903.9L984.8 1058.1ZM711 569.7L937.1 442H1203.4L983.8 569.7H711Z"/>
             </svg>
+          </div>
+        </div>
+
+        <div class="stage4" style="display:none;">
+          <div class="wrap">
+            <svg id="canvas" viewBox="0 0 1000 1000" aria-hidden="true">
+              <defs id="defsBlock"></defs>
+
+              <!-- Axis lines -->
+              <line id="axis-vert" class="axis" x1="500" y1="20"  x2="500" y2="980"/>
+              <line id="axis-horz" class="axis" x1="20"  y1="500" x2="980" y2="500"/>
+
+              <g id="quad-lines"></g>
+            </svg>
+
+            <div id="diamond-outer2" aria-hidden="true"></div>
+            <div id="diamond-outer1" aria-hidden="true"></div>
+            <div id="diamond" aria-hidden="true"></div>
+
+            <!-- small extra diamonds -->
+            <div class="small-diamond top-left" aria-hidden="true"></div>
+            <div class="small-diamond top-right" aria-hidden="true"></div>
+            <div class="small-diamond bottom-left" aria-hidden="true"></div>
+
+            <!-- falling icon -->
+            <div id="fall-icon" aria-hidden="true">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <linearGradient id="grad-fall" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#ff6fb5" />
+                    <stop offset="100%" stop-color="#a855f7" />
+                  </linearGradient>
+                </defs>
+                <path d="M100,20 C120,65  140,65  180,100 C140,135 120,135 100,180 C80,135  60,135  20,100 C60,65   80,65   100,20 Z"
+                      fill="url(#grad-fall)" />
+              </svg>
+            </div>
           </div>
         </div>
 
@@ -554,6 +681,179 @@ function stage3Timeline() {
   return t;
 }
 
+function stage4Timeline() {
+  const t = gsap.timeline({
+    onStart: () => {
+      document.querySelector('.stage3').style.display = 'none';
+      document.querySelector('.stage4').style.display = 'flex';
+    },
+    onReverseComplete: () => {
+      document.querySelector('.stage4').style.display = 'none';
+      document.querySelector('.stage3').style.display = 'flex';
+    }
+  });
+
+  const g = document.getElementById("quad-lines"),
+        defs = document.getElementById("defsBlock"),
+        cx = 500, cy = 500,
+        radiusX = 550, radiusY = 380,
+        linesPerQuadrant = 3,
+        quads = [{start:-90,end:0},{start:0,end:90},{start:90,end:180},{start:180,end:270}];
+  let gradCounter = 0;
+  function d2r(d){ return d * Math.PI / 180; }
+
+  function makeGrad(x1, y1, x2, y2){
+    const id = "g"+(gradCounter++),
+          grad = document.createElementNS("http://www.w3.org/2000/svg","linearGradient");
+    grad.setAttribute("id", id);
+    grad.setAttribute("gradientUnits","userSpaceOnUse");
+    grad.setAttribute("x1", x1); grad.setAttribute("y1", y1);
+    grad.setAttribute("x2", x2); grad.setAttribute("y2", y2);
+    [["0%","1"],["85%","1"],["100%","0"]].forEach(([o,op])=>{
+      const s = document.createElementNS("http://www.w3.org/2000/svg","stop");
+      s.setAttribute("offset", o);
+      s.setAttribute("stop-color","var(--line)");
+      s.setAttribute("stop-opacity", op);
+      grad.appendChild(s);
+    });
+    defs.appendChild(grad);
+    return id;
+  }
+
+  // radial quadrant lines
+  quads.forEach(q=>{
+    const step = (q.end - q.start)/(linesPerQuadrant+1);
+    for(let i=1;i<=linesPerQuadrant;i++){
+      const a=d2r(q.start+step*i),
+            x2=cx+Math.cos(a)*radiusX,
+            y2=cy+Math.sin(a)*radiusY,
+            gid=makeGrad(cx,cy,x2,y2),
+            ln=document.createElementNS("http://www.w3.org/2000/svg","line");
+      ln.setAttribute("x1",cx); ln.setAttribute("y1",cy);
+      ln.setAttribute("x2",x2); ln.setAttribute("y2",y2);
+      ln.setAttribute("stroke",`url(#${gid})`);
+      g.appendChild(ln);
+    }
+  });
+
+  /* axis line gradients */
+  (() => {
+    const vId = "v" + (gradCounter++),
+          vg = document.createElementNS("http://www.w3.org/2000/svg","linearGradient");
+    vg.setAttribute("id", vId);
+    vg.setAttribute("gradientUnits", "userSpaceOnUse");
+    vg.setAttribute("x1", 500); vg.setAttribute("y1", 20);
+    vg.setAttribute("x2", 500); vg.setAttribute("y2", 980);
+    [["0%","0"],["48%","1"],["52%","1"],["100%","0"]].forEach(([o,op])=>{
+      const s = document.createElementNS("http://www.w3.org/2000/svg","stop");
+      s.setAttribute("offset", o);
+      s.setAttribute("stop-color","var(--line)");
+      s.setAttribute("stop-opacity", op);
+      vg.appendChild(s);
+    });
+    defs.appendChild(vg);
+    document.getElementById("axis-vert").setAttribute("stroke", `url(#${vId})`);
+
+    const hId = "h" + (gradCounter++),
+          hg = document.createElementNS("http://www.w3.org/2000/svg","linearGradient");
+    hg.setAttribute("id", hId);
+    hg.setAttribute("gradientUnits", "userSpaceOnUse");
+    hg.setAttribute("x1", 20); hg.setAttribute("y1", 500);
+    hg.setAttribute("x2", 980); hg.setAttribute("y2", 500);
+    [["0%","0"],["48%","1"],["52%","1"],["100%","0"]].forEach(([o,op])=>{
+      const s = document.createElementNS("http://www.w3.org/2000/svg","stop");
+      s.setAttribute("offset", o);
+      s.setAttribute("stop-color","var(--line)");
+      s.setAttribute("stop-opacity", op);
+      hg.appendChild(s);
+    });
+    defs.appendChild(hg);
+    document.getElementById("axis-horz").setAttribute("stroke", `url(#${hId})`);
+  })();
+
+  /* diamonds */
+  t.fromTo("#diamond",{scale:0.6},{scale:1.2},0)
+   .fromTo("#diamond-outer1",{scale:0.6,opacity:0},{scale:1.9,opacity:1},0)
+   .fromTo("#diamond-outer2",{scale:0.6,opacity:0},{scale:2.6,opacity:1},0);
+
+  /* small diamonds */
+  const sTL=document.querySelector('.small-diamond.top-left'),
+        sTR=document.querySelector('.small-diamond.top-right'),
+        sBL=document.querySelector('.small-diamond.bottom-left'),
+        centerDiamond=document.getElementById('diamond');
+
+  function getVectorFromCenter(el, centerEl) {
+    const re=el.getBoundingClientRect(),
+          rc=centerEl.getBoundingClientRect();
+    return {
+      x:(re.left+re.width/2)-(rc.left+rc.width/2),
+      y:(re.top+re.height/2)-(rc.top+rc.height/2)
+    };
+  }
+  const depthFactor=1.8;
+  function computeEndOffset(el){
+    const vec=getVectorFromCenter(el, centerDiamond);
+    return {x:vec.x*0.5*depthFactor, y:vec.y*0.5*depthFactor};
+  }
+
+  t.fromTo(sTL,{scale:0.72,x:0,y:0,opacity:0.95},{
+    scale:0.9,
+    x:()=>computeEndOffset(sTL).x,
+    y:()=>computeEndOffset(sTL).y,
+    opacity:1,
+    ease:"power1.out"
+  },0);
+  t.fromTo(sTR,{scale:0.72,x:0,y:0,opacity:0.95},{
+    scale:1.4,
+    x:()=>computeEndOffset(sTR).x,
+    y:()=>computeEndOffset(sTR).y,
+    opacity:1,
+    ease:"power1.out"
+  },0);
+  t.fromTo(sBL,{scale:0.72,x:0,y:0,opacity:0.95},{
+    scale:1.1,
+    x:()=>computeEndOffset(sBL).x,
+    y:()=>computeEndOffset(sBL).y,
+    opacity:1,
+    ease:"power1.out"
+  },0);
+
+  /* fall icon */
+  const fallIcon=document.getElementById("fall-icon");
+  function computeDeltas(){
+    gsap.set(fallIcon, {x:0,y:0});
+    const iR = fallIcon.getBoundingClientRect(),
+          dR = centerDiamond.getBoundingClientRect();
+    const iconCX = iR.left + iR.width/2,
+          iconCY = iR.top + iR.height/2,
+          diamondCX = dR.left + dR.width/2,
+          diamondCY = dR.top + dR.height/2;
+    return {deltaX: diamondCX - iconCX, deltaY: diamondCY - iconCY};
+  }
+
+  t.to(fallIcon,{
+    x:()=>computeDeltas().deltaX,
+    y:()=>computeDeltas().deltaY,
+    ease:"power2.out",
+    immediateRender:false
+  },0);
+
+  /* glow toggle */
+  ScrollTrigger.create({
+    trigger: ".stage4",
+    start:"top top", end:"+=600", scrub:true,
+    onUpdate(self){
+      const el=document.getElementById('diamond');
+      if(self.progress>0.6) el.classList.add('glow'); else el.classList.remove('glow');
+    }
+  });
+
+  ScrollTrigger.addEventListener("refreshInit", () => {
+    gsap.set([sTL, sTR, sBL, fallIcon], { x:0, y:0 });
+  });
+
+  return t;
+}
 
 
   // Main ScrollTrigger timeline
@@ -586,10 +886,11 @@ function stage3Timeline() {
     }
     if (i === 2) {
       tl.add(stage3Timeline(), stage);
-    }
+        }
     if (i === 3) {
-      tl.to(right, { backgroundColor: "#9333ea", y: -60, rotation: -15, duration: 1 }, stage);
+      tl.add(stage4Timeline(), stage);
     }
+
   });
 </script>
 </body>
