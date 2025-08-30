@@ -224,32 +224,49 @@
     }
 
 /* Stage 3 Falling Icon + Glow */
+/* Stage 3 Falling Icon + Glow */
 .falling-icon-wrapper {
   position: absolute;
-  top: 10px;        /* starting position */
+  top: 10px;          /* starting position */
   left: 50%;
   transform: translateX(-50%);
-  width: 82px;      /* icon size */
-  height: 83px;
+  width: 100px;        /* icon width */
+  height: 100px;       /* match width for perfect square */
+  display: flex;      /* center SVG inside */
+  align-items: center;
+  justify-content: center;
   z-index: 100;
 }
 
-.falling-icon {
+.falling-icon svg {
   width: 100%;
   height: 100%;
-  position: relative;
+  display: block;     /* remove extra inline space */
+  margin-top: 25px;
 }
 
-.falling-icon svg {
-  width: 100% !important;
-  height: 100% !important;
+.falling-icon {
+  position: relative;   /* keep relative for absolute children */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .icon-glow-container {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* perfect center over icon */
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+
 
 .outer-glow,
 .inner-glow {
@@ -264,15 +281,15 @@
 }
 
 .outer-glow {
-  width: 50px;
-  height: 50px;
+  width: 82px;
+  height: 82px;
   background: radial-gradient(circle, rgba(77,147,234,0.85) 0%, rgba(0,114,255,0.1) 80%);
   z-index: 0;
 }
 
 .inner-glow {
-  width: 50px;
-  height: 50px;
+  width: 82px;
+  height: 82px;
   background: radial-gradient(circle, rgba(0,198,255,0.5) 0%, rgba(0,198,255,0.1) 80%);
   z-index: 1;
 }
