@@ -64,7 +64,7 @@
     }
     .content-row {
       display:grid;
-      grid-template-columns:92px 1fr 420px;
+      grid-template-columns:92px 450px 1fr;
       align-items:start;
     }
     .left {
@@ -122,7 +122,7 @@
     .right {
       min-height:420px;
       border-radius:12px;
-      background:rgba(255,255,255,0.02);
+      background:rgba(255,255,255,0.05);
       display:flex;
       align-items:center;
       justify-content:center;
@@ -185,43 +185,48 @@
 
   const fill = document.getElementById('fill');
   const items = document.querySelectorAll('.item');
+  const right = document.querySelector('.right');
 
-  const tl = gsap.timeline({
+  let tl = gsap.timeline({
     scrollTrigger: {
       trigger: "#pin",
       start: "top top",
-      end: "+=1000",
+      end: "+=4000", // total scroll for 4 sections
       scrub: true,
-      pin: true,
-      onUpdate: self => {
-        const progress = self.progress;
-
-        items.forEach((item, i) => {
-          const heading = item.querySelector('.heading');
-          const sub = item.querySelector('.sub');
-
-          const total = items.length;
-          const eachSection = 1 / total;
-          const sectionStart = i * eachSection;
-          const sectionEnd = sectionStart + eachSection;
-
-          let localProgress = (progress - sectionStart) / eachSection;
-          localProgress = Math.max(0, Math.min(1, localProgress));
-
-          const headingOpacity = 0.5 + (1 - 0.5) * localProgress;
-          const subOpacity = 0.35 + (0.85 - 0.35) * localProgress;
-          const y = 6 * (1 - localProgress);
-
-          heading.style.opacity = headingOpacity;
-          heading.style.transform = `translateY(${y}px)`;
-          sub.style.opacity = subOpacity;
-          sub.style.transform = `translateY(${y}px)`;
-        });
-      }
+      pin: true
     }
   });
 
-  tl.to(fill, { height: "100%", ease: "none" }, 0);
+  items.forEach((item, i) => {
+    let heading = item.querySelector('.heading');
+    let sub = item.querySelector('.sub');
+    let stage = "stage" + (i+1);
+
+    // Evenly distribute each stage
+    tl.addLabel(stage, i);
+
+    // Progress bar per stage
+    let percent = ((i+1) / items.length) * 100;
+    tl.to(fill, { height: percent + "%", ease: "none" }, stage);
+
+    // Animate text
+    tl.to(heading, { opacity: 1, y: 0, duration: 0.5 }, stage)
+      .to(sub, { opacity: 0.85, y: 0, duration: 0.5 }, stage);
+
+    // Right box fun animations
+    if (i === 0) {
+      tl.to(right, { backgroundColor: "#2563eb", scale: 1.2, duration: 1, ease: "power2.out" }, stage);
+    }
+    if (i === 1) {
+      tl.to(right, { backgroundColor: "#16a34a", rotation: 20, duration: 1, ease: "elastic.out(1,0.5)" }, stage);
+    }
+    if (i === 2) {
+      tl.to(right, { backgroundColor: "#dc2626", x: 80, scale: 0.9, duration: 1 }, stage);
+    }
+    if (i === 3) {
+      tl.to(right, { backgroundColor: "#9333ea", y: -60, rotation: -15, duration: 1 }, stage);
+    }
+  });
 </script>
 </body>
 </html>
