@@ -208,7 +208,7 @@
     .falling-ellipse {
       width: 60px;
       height: 25px;
-      background: #00ff66;
+      background: #FE9708;
       border-radius: 50%;
       position: absolute;
       top: -100px;
@@ -223,7 +223,6 @@
       .title { font-size:40px; }
     }
 
-/* Stage 3 Falling Icon + Glow */
 /* Stage 3 Falling Icon + Glow */
 .falling-icon-wrapper {
   position: absolute;
@@ -283,14 +282,14 @@
 .outer-glow {
   width: 82px;
   height: 82px;
-  background: radial-gradient(circle, rgba(77,147,234,0.85) 0%, rgba(0,114,255,0.1) 80%);
+  background: radial-gradient(circle, rgba(255,215,0,0.85) 0%, rgba(254,151,8,0.1) 80%);
   z-index: 0;
 }
 
 .inner-glow {
   width: 82px;
   height: 82px;
-  background: radial-gradient(circle, rgba(0,198,255,0.5) 0%, rgba(0,198,255,0.1) 80%);
+  background: radial-gradient(circle, rgba(255,151,8,0.5) 0%, rgba(254,151,8,0.1) 80%);
   z-index: 1;
 }
 
@@ -313,7 +312,7 @@
 :root {
   --bg:#0d0d0d;
   --line:#292929;      /* color for radial + axis lines */
-  --pink:#ff6fb5;      /* color for small diamonds + borders */
+  --pink:#FFD700;      /* color for small diamonds + borders */
 }
 
 /* --- Stage 4 --- */
@@ -341,17 +340,17 @@ line { stroke-linecap:round; stroke-width:2 }
   transform-origin:center center;
   border-radius:8px;
   pointer-events:none;
-  border:1px solid rgba(255,111,181,1);
+  border:1px solid rgba(254,151,8,1);
   background: linear-gradient(135deg,
-    rgba(255,111,181,0.30) 0%,
-    rgba(255,111,181,0.18) 50%,
-    rgba(255,111,181,0.16) 100%);
-  box-shadow: 0 6px 20px rgba(255,111,181,0.08);
+    rgba(254,151,8,0.30) 0%,
+    rgba(254,151,8,0.18) 50%,
+    rgba(254,151,8,0.16) 100%);
+  box-shadow: 0 6px 20px rgba(254,151,8,0.08);
   z-index:100;
 }
 #diamond.glow {
-  box-shadow:0 20px 80px rgba(255,111,181,0.25),
-             0 6px 20px rgba(255,111,181,0.12);
+  box-shadow:0 20px 80px rgba(254,151,8,0.25),
+             0 6px 20px rgba(254,151,8,0.12);
 }
 
 /* outer border diamonds */
@@ -363,7 +362,7 @@ line { stroke-linecap:round; stroke-width:2 }
   border-radius:8px;
   pointer-events:none;
   background:transparent;
-  border:1px solid rgba(255,111,181,0.9);
+  border:1px solid rgba(254,151,8,0.9);
   will-change:transform,opacity;
 }
 #diamond-outer1{ transform:translate(-50%,-50%) rotate(45deg) scale(0.9); z-index:9; }
@@ -481,8 +480,8 @@ line { stroke-linecap:round; stroke-width:2 }
                 <path d="M41 0C44.1046 0 45.7952 7.28276 47.6569 8.29289C49.5186 9.30301 54.0902 4.72718 56.2635 6.90049C58.4368 9.07381 53.861 13.6454 54.8711 15.5071C55.8813 17.3688 63.164 19.0594 63.164 22.164C63.164 25.2686 55.8813 26.9592 54.8711 28.8209C53.861 30.6826 58.4368 35.2542 56.2635 37.4275C54.0902 39.6008 49.5186 35.025 47.6569 36.0351C45.7952 37.0453 44.1046 44.328 41 44.328C37.8954 44.328 36.2048 37.0453 34.3431 36.0351C32.4814 35.025 27.9098 39.6008 25.7365 37.4275C23.5632 35.2542 28.139 30.6826 27.1289 28.8209C26.1187 26.9592 18.836 25.2686 18.836 22.164C18.836 19.0594 26.1187 17.3688 27.1289 15.5071C28.139 13.6454 23.5632 9.07381 25.7365 6.90049C27.9098 4.72718 32.4814 9.30301 34.3431 8.29289C36.2048 7.28276 37.8954 0 41 0Z" fill="url(#paint0_linear_1_2)"/>
                 <defs>
                   <linearGradient id="paint0_linear_1_2" x1="41" y1="0" x2="41" y2="83" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#00C6FF"/>
-                    <stop offset="1" stop-color="#0072FF"/>
+                    <stop stop-color="#FFD700"/>
+                    <stop offset="1" stop-color="#FE9708"/>
                   </linearGradient>
                 </defs>
               </svg>
@@ -494,8 +493,8 @@ line { stroke-linecap:round; stroke-width:2 }
             <svg class="main-graphic" viewBox="0 0 1207 1060" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="gradient" x1="601.397" y1="0" x2="601.397" y2="1058.96" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#00C6FF"/>
-                  <stop offset="1" stop-color="#0072FF"/>
+                  <stop stop-color="#FFD700"/>
+                  <stop offset="1" stop-color="#FE9708"/>
                 </linearGradient>
               </defs>
 
@@ -540,8 +539,8 @@ line { stroke-linecap:round; stroke-width:2 }
               <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
                 <defs>
                   <linearGradient id="grad-fall" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#ff6fb5" />
-                    <stop offset="100%" stop-color="#a855f7" />
+                    <stop offset="0%" stop-color="#FFD700" />
+                    <stop offset="100%" stop-color="#FE9708" />
                   </linearGradient>
                 </defs>
                 <path d="M100,20 C120,65  140,65  180,100 C140,135 120,135 100,180 C80,135  60,135  20,100 C60,65   80,65   100,20 Z"
@@ -639,16 +638,16 @@ function ellipseTimeline() {
 
   // Activate rows as before...
   t.to([ellipses[9], ellipses[10], ellipses[11]], {
-    borderColor: "#00ff66",
-    backgroundColor: "rgba(0,255,102,0.1)", duration: 0.5
+    borderColor: "#FE9708",
+    backgroundColor: "rgba(254,151,8,0.1)", duration: 0.5
   });
   t.to([ellipses[15], ellipses[16], ellipses[17], ellipses[18], ellipses[19]], {
-    borderColor: "#00ff66",
-    backgroundColor: "rgba(0,255,102,0.1)", duration: 0.5
+    borderColor: "#FE9708",
+    backgroundColor: "rgba(254,151,8,0.1)", duration: 0.5
   });
   t.to(Array.from(ellipses).slice(21, 28), {
-    borderColor: "#00ff66",
-    backgroundColor: "rgba(0,255,102,0.1)", duration: 0.5
+    borderColor: "#FE9708",
+    backgroundColor: "rgba(254,151,8,0.1)", duration: 0.5
   });
 
   return t;
@@ -799,21 +798,21 @@ function stage4Timeline() {
     return {x:vec.x*0.5*depthFactor, y:vec.y*0.5*depthFactor};
   }
 
-  t.fromTo(sTL,{scale:0.72,x:0,y:0,opacity:0.95},{
+  t.fromTo(sTL,{scale:0.72, opacity:0.95},{
     scale:0.9,
     x:()=>computeEndOffset(sTL).x,
     y:()=>computeEndOffset(sTL).y,
     opacity:1,
     ease:"power1.out"
   },0);
-  t.fromTo(sTR,{scale:0.72,x:0,y:0,opacity:0.95},{
+  t.fromTo(sTR,{scale:0.72, opacity:0.95},{
     scale:1.4,
     x:()=>computeEndOffset(sTR).x,
     y:()=>computeEndOffset(sTR).y,
     opacity:1,
     ease:"power1.out"
   },0);
-  t.fromTo(sBL,{scale:0.72,x:0,y:0,opacity:0.95},{
+  t.fromTo(sBL,{scale:0.72, opacity:0.95},{
     scale:1.1,
     x:()=>computeEndOffset(sBL).x,
     y:()=>computeEndOffset(sBL).y,
@@ -844,7 +843,7 @@ t.fromTo("#fall-icon",
   });
 
   ScrollTrigger.addEventListener("refreshInit", () => {
-    gsap.set([sTL, sTR, sBL, fallIcon], { clearProps: "x,y" });
+    gsap.set(fallIcon, { clearProps: "x,y" });
   });
 
   return t;
